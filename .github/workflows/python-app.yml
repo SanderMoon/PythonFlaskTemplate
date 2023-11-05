@@ -23,9 +23,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run unit tests
       run: |
-        # Run tests here. Modify this according to how your tests are set up.
-        # For example, if you use unittest, you might run:
-        python -m unittest discover -s tests
+        python -m pytest
     - name: Lint with flake8
       run: |
         # Stop the build if there are Python syntax errors or undefined names
