@@ -1,0 +1,47 @@
+name: Python application test
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.10, 3.11, 3.12]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Run unit tests
+      run: |
+        # Run tests here. Modify this according to how your tests are set up.
+        # For example, if you use unittest, you might run:
+        python -m unittest discover -s tests
+    - name: Lint with flake8
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Bump version and push tag
+      if: github.ref == 'refs/heads/main'
+      uses: mathieudutour/github-tag-action@v6.0
+      with:
+        # Make sure to add a github token to your secrets: https://github.com/mathieudutour/github-tag-action
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        default_bump: patch  # Or 'minor' or 'major' or 'prepatch' etc.
+        # Use this if you want to prefix your tags, e.g., 'v' for v1.0.0
+        tag_prefix: v
+        # Use this if you want to create a release as well, not just a tag
+        create_annotated_tag: true
+        # Optional, to configure commit messages
+        release_commit_message: 'chore(release): release {{version}}'
