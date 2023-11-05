@@ -35,7 +35,7 @@ jobs:
       uses: mathieudutour/github-tag-action@v6.0
       with:
         # Make sure to add a github token to your secrets: https://github.com/mathieudutour/github-tag-action
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GH_TOKEN }}
         default_bump: patch  # Or 'minor' or 'major' or 'prepatch' etc.
         # Use this if you want to prefix your tags, e.g., 'v' for v1.0.0
         tag_prefix: v
