@@ -1,11 +1,6 @@
 """Tests some sample method."""
 
-import sys
-
-# This is to ensure that we can import from src directory
-sys.path.append("src")
-
-from math_example import add_numbers
+from src.math_example import add_numbers
 
 
 def test_add_numbers():
